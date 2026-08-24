@@ -21,21 +21,53 @@ def create_data():
 
     return pd.DataFrame(data)
 
-
-#DATA CLEANING 
+#==============================
+#DATA CLEANING & FEAUTURE ENGINEERING
+#==============================
 def clean_data(df):
     df["GrossSales"]=df["Quantity"]*df["UnitPrice"]
     df["NetSales"]=df["GrossSales"]*(1-df["Discount"])
     df["Month"]=df["Date"].dt.to_period('M')
     return df
 
+#==============================
 
+#METRICS CALCULATION
 
+#==============================
 
+def calculate_metrics(df):
+    sales_by_category=df.groupby("Category")["NetSales"].sum()
+    sales_by_month=df.groupby("Month")["NetSales"].sum()
+    total_revenues=df["NetSales"].sum()
+    avg_oder_value=df["NetSales"].mean()
+    return sales_by_category,sales_by_month,total_revenues,avg_oder_value
 
+#==============================
+#VISUALISATION :
+#==============================
 
+def visualise_dahsboard(sales_by_category,monthly_trend):
+    figures,axes=plt.subplots(1,2)
+    #CATEGORY REVENUE
+    axes[0].bar(sales_by_category.index,sales_by_category.values)
+    axes[0].set_xlabel("Category", color="darkred", fontsize=11)
+    axes[0].set_ylabel("Revenue ($)", color="darkred", fontsize=11)
+    axes[0].tick_params(axis='x',color="purple",rotation=45)
+    axes[0].tick_params(axis='y',color="navy")
+    #MONTHLY REVENUE
+    axes[1].bar(monthly_trend.index.astype(str),monthly_trend.values)
+    axes[1].set_xlabel("Month", color="darkred", fontsize=11)
+    axes[1].set_ylabel("Revenue ($)", color="darkred", fontsize=11)
+    axes[1].tick_params(axis='x',color="purple",rotation=45)
+    axes[1].tick_params(axis='y',color="navy")
+    plt.tight_layout()
+    plt.show()
 
 #EXCUTION 
-df=create_data()
-df=clean_data(df)
-print(df)
+if __name__=="__main__":
+    df=create_data()
+    df=clean_data(df)
+    sales_by_category,sales_by_month,total_revenues,avg_oder_value=calculate_metrics(df)
+    visualise_dahsboard(sales_by_category,sales_by_month)
+    print(f"Total Revenues: {total_revenues}, AVERAGE ORDER VALUE: {avg_oder_value}")
