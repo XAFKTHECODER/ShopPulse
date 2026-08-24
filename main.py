@@ -48,7 +48,9 @@ def calculate_metrics(df):
 #==============================
 
 def visualise_dahsboard(sales_by_category,monthly_trend):
-    figures,axes=plt.subplots(1,2)
+    fig,axes=plt.subplots(1,2,figsize=(12, 5))
+    fig.suptitle("ShopPulse",fontsize=16, fontweight="bold")
+    fig.canvas.manager.set_window_title("ShopPulse Analytics")
     #CATEGORY REVENUE
     axes[0].bar(sales_by_category.index,sales_by_category.values)
     axes[0].set_xlabel("Category", color="darkred", fontsize=11)
