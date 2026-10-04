@@ -20,29 +20,33 @@ Python 3.11 or newer.
 
 ## Install and run
 
+Clone the repository and create a virtual environment:
 
-Create and activate a virtual environment:
-
-
+```bash
 git clone https://github.com/XAFKTHECODER/ShopPulse.git
 cd ShopPulse
 python -m venv .venv
+```
 
+Activate the environment, then install dependencies and run the script:
+
+```bash
 # macOS / Linux
 source .venv/bin/activate
 
-# Windows PowerShell
-# .venv\Scripts\Activate.ps1
+# Windows PowerShell (run this line instead)
+.venv\Scripts\Activate.ps1
 
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 python main.py
-
+```
 
 The script opens a Matplotlib window with the charts, then prints the summary in the terminal. All transactions are generated in memory; no external store or customer data is used.
 
 ## Run tests
 
-
+```bash
 python -m unittest discover -v
+```
 
 Tests cover sales and discount calculations, monthly/category summaries, and the generated dataset shape.
